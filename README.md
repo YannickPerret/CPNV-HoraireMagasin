@@ -1,12 +1,14 @@
-# Starter-Template-Webpack
-Template de base pour créer un projet avec Webpack. Actuellement il gère la minification et le traitement des ressources Js/image/Videos
-Un autoprefixe est ajouté pour être à jour sur les vieux navigateurs de 2 générations.
+# CPNV - Gestion d'horaire d'une magasin
+Gestion d'un d'ouverture d'un magasin avec fonctionnalité pour savoir s'il est ouvert actuellement et à une prochaine date.
 
-## How to use
 
-Run the following commands in the root directory.
+## Comment utiliser
+
+clonez l'archive complète pour le compiler ou ne garder que le dossier public (dans lequel se trouve les fichiers de compilés)
 
 ```bash
 npm install
+
+npm run dev 
+
 npm run build
-npm run start
