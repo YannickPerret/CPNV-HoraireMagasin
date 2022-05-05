@@ -11,16 +11,18 @@
 /*
     listes des améliorations : 
         - N'afficher qu'un seul input et faire un traitement du text via splice pour ne récupérer que la première et dernière date pour ensuite la transformer en class Date()
-
-
+        - Faire un design et responsive design
+        - Tester les valeurs retourné par l'utilisateur (dates)
+        - Prochain jour ouvré, s'il tombe sur 0.00 il l'utilisera comme prochain jour d'ouverture. -> faire une exéception
 */
 
 import './style/_settings.scss'
 
 
+// VARIABLE 
 //Start by Sunday !
 const weekday = [["Sunday","Sun"],["Monday", "Mon"],["Tuesday", "Tues"],["Wednesday", "Wed"],["Thursday", "Thurs"],["Friday", "Fri"],["Saturday", "Sat"]]; 
-const date = new Date()
+
 
 let shopOpening = [
     [weekday[0], 0.00, 0.00, 0.00, 0.00], //Sunday
@@ -45,7 +47,7 @@ window.IsOpenOn = (_dateTime) =>{
     //Est-ce qu'il est ouvert le matin ( >= que ouverture matin, plus <= que fermerture matin)
     if((hoursMin >= shopOpening[day][1] && hoursMin <= shopOpening[day][2])){
 
-        console.log("OUVERT Matin")
+        console.log("IsOpen : ", "OUVERT Matin")
         document.getElementById("textIsOpen").innerHTML = "<span style='color : green;'>Ouvert</span>"
         return true //ou 1 ouvert matin
     }
@@ -53,7 +55,7 @@ window.IsOpenOn = (_dateTime) =>{
     //Est-ce qu'il est ouvert en après midi (>= que ouverture après midi, plus <= que fermeture soir et en dehors des heures du matin)
     if(hoursMin >= shopOpening[day][3] && hoursMin <= shopOpening[day][4] && hoursMin >= shopOpening[day][1] && hoursMin >= shopOpening[day][2]){
 
-        console.log("OUVERT après midi")
+        console.log("IsOpen : ", "OUVERT après midi")
         document.getElementById("textIsOpen").innerHTML = "<span style='color : green;'>Ouvert</span>"
         return true // ou 2 ouvert après midi
     }
@@ -61,54 +63,52 @@ window.IsOpenOn = (_dateTime) =>{
 
     //Sinon le magasin est fermé
     else{
-        console.log("FERME")
+        console.log("IsOpen : ", "FERME")
         document.getElementById("textIsOpen").innerHTML = "<span style='color : red;'>Fermé</span>"
         return false //ou 3 fermé
     }
 }
 
 
-
+//Demande une date et retourne le prochain jours d'heure d'ouverture
 const NextOpeningDate = (_dateTime) => {
-   //dimanche 09:15 -> next lundi 08.00
     let day = _dateTime.getDay()
     let hoursMin = _dateTime.getHours()+"."+_dateTime.getMinutes() 
 
     let nextAvailableDayOfTheWeek  = 0;
+    let textToShow = ""
 
+    if(hoursMin > shopOpening[day][1] && hoursMin <= shopOpening[day][2]){
+        textToShow = weekday[day][0]+ " le matin à "+ shopOpening[day][1]
+    }
+    else if(hoursMin > shopOpening[day][3] && hoursMin <= shopOpening[day][4]){
+        textToShow = weekday[day][0]+ " l'après-midi à "+ shopOpening[day][3]
+    }
+    else{
+        hoursMin = 0.00
+        nextAvailableDayOfTheWeek = day + 1
 
-    if(hoursMin > shopOpening[day][1] || hoursMin > shopOpening[day][3])
-    {
         for (let i = 0; i < 14; i++){
             if(nextAvailableDayOfTheWeek === 7){
                 nextAvailableDayOfTheWeek = 0
             }
 
-            if(shopOpening[nextAvailableDayOfTheWeek][1] > hoursMin){ //test si l'horaire du matin est le plus grand
-                console.log("oui")
-                return ["prochaine ouverture :", weekday[nextAvailableDayOfTheWeek][0], " à ", shopOpening[nextAvailableDayOfTheWeek][1]]
+            if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][1] ){ //test si l'horaire du matin est le plus grand
+                textToShow = weekday[nextAvailableDayOfTheWeek][0]+ " à "+ shopOpening[nextAvailableDayOfTheWeek][1]
             }
         
-            else if(shopOpening[nextAvailableDayOfTheWeek][3] > hoursMin){ //Sinon si l'après midi est plus grand
-                console.log("oui2")
-
-                return["prochaine ouverture :", weekday[nextAvailableDayOfTheWeek][0], " à ", shopOpening[nextAvailableDayOfTheWeek][3]]
+            else if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][3]){ //Sinon si l'après midi est plus grand
+                textToShow = weekday[nextAvailableDayOfTheWeek][0]+ " à "+ shopOpening[nextAvailableDayOfTheWeek][3]
             }
             
-
-            hoursMin = 0.00
             nextAvailableDayOfTheWeek++;
         }
     }
-    else{
-        return ["prochaine ouverture : ", "Today", " at ", ]
-        
-        //Dans la même journée la prochaine heure d'ouverture        
-    }
+    document.getElementById('nextShopOpen').innerHTML = "( Prochaine ouverture : "+textToShow +" h )"
 }
 
 
-
+//AFFICHAGE DES INFORMATIONS 
 
 const formSchedule = () => {
 
@@ -116,10 +116,10 @@ const formSchedule = () => {
 
     shopOpening.map((element) => {
         form.innerHTML += `<input type="text" value="${element[0][1]}" class="inputDay" />`
-        form.innerHTML += `<label>Ouverture matin </label><input type="text" value="${element[1] === 0 ? "" : element[1]}" />`
-        form.innerHTML += `<label>Fermture midi</label><input type="text" value="${element[2] === 0 ? "" : element[2]}" />`
-        form.innerHTML += `<label>Ouverture après midi</label><input type="text" value="${element[3] === 0 ? "" : element[3]}" />`
-        form.innerHTML += `<label>Fermeture après midi</label><input type="text" value="${element[4] === 0 ? "" : element[4]}" /><br>`
+        form.innerHTML += `<label>Ouverture matin </label><input type="text" value="${element[1] === 0 ? "" : Number(element[1])+" h"} " />`
+        form.innerHTML += `<label>Fermture midi</label><input type="text" value="${element[2] === 0 ? "" : Number(element[2])+" h"} " />`
+        form.innerHTML += `<label>Ouverture après midi</label><input type="text" value="${element[3] === 0 ? "" : Number(element[3])+" h"} " />`
+        form.innerHTML += `<label>Fermeture après midi</label><input type="text" value="${element[4] === 0 ? "" : Number(element[4])+" h"} " /><br>`
     })
 }
 
@@ -128,7 +128,7 @@ formSchedule()
 
 
 
-//Variable pour tester en directe les valeurs
+//Pool variable pour tester les valeurs
 let wednesday = new Date('2016-05-11T12:22:11.824') //True
 let wednesday2 = new Date('2016-05-11T07:22:11.824') //True
 let thursday = new Date('2016-05-12T12:22:11.824') //false
@@ -139,7 +139,8 @@ let monday_morning = new Date('2016-05-16T08:00:00.000') //true
 let thursday_afternoon = new Date('2016-05-12T14:00:00.000') //true
 
 
-IsOpenOn(wednesday)
+// Affectez une nouvelle valeur pour tester la fonction
+IsOpenOn(new Date())
 
-
-console.log(NextOpeningDate(wednesday))
+//Malheureusement quelques bugs subsistent
+console.log(NextOpeningDate(new Date()))

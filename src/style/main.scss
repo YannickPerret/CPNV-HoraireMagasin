@@ -32,8 +32,9 @@ body {
     }
 
     & form input{
-      margin-top : 1.5vh;
-
+      margin : 1.5vh 10px 0 10px;
+      
+      width: 100px;
 
 
       & .inputDay{
@@ -50,4 +51,13 @@ body {
   width: 40vw;
   height: 30vh;
   align-items: center;
+}
+
+
+#nextShopOpen{
+  display : flex;
+  width: 400px;
+  border : 1px dashed black;
+  justify-content: center;
+  margin: 0 auto;
 }
