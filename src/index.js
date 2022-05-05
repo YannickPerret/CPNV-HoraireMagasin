@@ -15,7 +15,6 @@
 
 */
 
-"use strict";
 import './style/_settings.scss'
 
 
@@ -34,36 +33,37 @@ let shopOpening = [
 ]
 
 
-//test value
-let wednesday = new Date('2016-05-11T12:22:11.824') //True
-let thursday = new Date('2016-05-12T12:22:11.824') //false
-let saturday = new Date('2016-05-14T09:15:00.000') //True
-let sunday = new Date('2016-05-15T09:15:00.000')  //false
-let friday_morning = new Date('2016-05-13T08:00:00.000') //true
-let monday_morning = new Date('2016-05-16T08:00:00.000') //true
-let thursday_afternoon = new Date('2016-05-12T14:00:00.000') //true
 
-
-
-//test value success
+//FUNCTION STATUS OPEN SHOP
 window.IsOpenOn = (_dateTime) =>{
-    _dateTime = new Date(_dateTime)
-    const day = _dateTime.getDay()
-    const hoursMin = _dateTime.getHours()+"."+_dateTime.getMinutes()
     
+    //Date récupérer de l'interface au bon format
+    const newDateTime = new Date(_dateTime)
+    const day = newDateTime.getDay()
+    const hoursMin = newDateTime.getHours()+"."+newDateTime.getMinutes()
+        
+    //Est-ce qu'il est ouvert le matin ( >= que ouverture matin, plus <= que fermerture matin)
+    if((hoursMin >= shopOpening[day][1] && hoursMin <= shopOpening[day][2])){
 
-    //console.log(hoursMin, ["shop", shopOpening[_dateTime.getDay()][1], shopOpening[_dateTime.getDay()][2],shopOpening[_dateTime.getDay()][3], shopOpening[_dateTime.getDay()][4]])
-
-    console.log(hoursMin, shopOpening[day][1])
-    if((hoursMin >= shopOpening[day][1] && hoursMin <= shopOpening[day][2]) || (hoursMin >= shopOpening[day][3] && hoursMin <= shopOpening[day][4])){
-        console.log("OUVERT")
+        console.log("OUVERT Matin")
         document.getElementById("textIsOpen").innerHTML = "<span style='color : green;'>Ouvert</span>"
-        return true
+        return true //ou 1 ouvert matin
     }
+
+    //Est-ce qu'il est ouvert en après midi (>= que ouverture après midi, plus <= que fermeture soir et en dehors des heures du matin)
+    if(hoursMin >= shopOpening[day][3] && hoursMin <= shopOpening[day][4] && hoursMin >= shopOpening[day][1] && hoursMin >= shopOpening[day][2]){
+
+        console.log("OUVERT après midi")
+        document.getElementById("textIsOpen").innerHTML = "<span style='color : green;'>Ouvert</span>"
+        return true // ou 2 ouvert après midi
+    }
+
+
+    //Sinon le magasin est fermé
     else{
         console.log("FERME")
         document.getElementById("textIsOpen").innerHTML = "<span style='color : red;'>Fermé</span>"
-        return false
+        return false //ou 3 fermé
     }
 }
 
@@ -107,7 +107,7 @@ const NextOpeningDate = (_dateTime) => {
     }
 }
 
-console.log(NextOpeningDate(wednesday))
+
 
 
 const formSchedule = () => {
@@ -124,4 +124,22 @@ const formSchedule = () => {
 }
 
 formSchedule()
-IsOpenOn(new Date())
+
+
+
+
+//Variable pour tester en directe les valeurs
+let wednesday = new Date('2016-05-11T12:22:11.824') //True
+let wednesday2 = new Date('2016-05-11T07:22:11.824') //True
+let thursday = new Date('2016-05-12T12:22:11.824') //false
+let saturday = new Date('2016-05-14T09:15:00.000') //True
+let sunday = new Date('2016-05-15T09:15:00.000')  //false
+let friday_morning = new Date('2016-05-13T08:00:00.000') //true
+let monday_morning = new Date('2016-05-16T08:00:00.000') //true
+let thursday_afternoon = new Date('2016-05-12T14:00:00.000') //true
+
+
+IsOpenOn(wednesday)
+
+
+console.log(NextOpeningDate(wednesday))
