@@ -20,3 +20,34 @@ body {
     max-width: 100%;
 }
 
+
+.openShopSchedule{
+  display : flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height:40vh;
+    & h1 {
+      margin : 0 auto;
+    }
+
+    & form input{
+      margin-top : 1.5vh;
+
+
+
+      & .inputDay{
+        height: 35px;
+      }
+    }
+}
+
+.openShop{
+  margin-top : 15vh;
+  display : flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 40vw;
+  height: 30vh;
+  align-items: center;
+}
