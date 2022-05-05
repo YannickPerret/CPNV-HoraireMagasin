@@ -115,11 +115,11 @@ const formSchedule = () => {
     let form = document.querySelector("form.openShopForm");
 
     shopOpening.map((element) => {
-        form.innerHTML += `<input type="text" value="${element[0][1]}" class="inputDay" />`
-        form.innerHTML += `<label>Ouverture matin </label><input type="text" value="${element[1] === 0 ? "" : Number(element[1])+" h"} " />`
-        form.innerHTML += `<label>Fermture midi</label><input type="text" value="${element[2] === 0 ? "" : Number(element[2])+" h"} " />`
-        form.innerHTML += `<label>Ouverture après midi</label><input type="text" value="${element[3] === 0 ? "" : Number(element[3])+" h"} " />`
-        form.innerHTML += `<label>Fermeture après midi</label><input type="text" value="${element[4] === 0 ? "" : Number(element[4])+" h"} " /><br>`
+        form.innerHTML += `<input type="text" value="${element[0][1]}" class="inputDay" disabled/>`
+        form.innerHTML += `<label>Ouverture matin </label><input type="text" value="${element[1] === 0 ? "" : Number(element[1])+" h"} " disabled />`
+        form.innerHTML += `<label>Fermture midi</label><input type="text" value="${element[2] === 0 ? "" : Number(element[2])+" h"} " disabled/>`
+        form.innerHTML += `<label>Ouverture après midi</label><input type="text" value="${element[3] === 0 ? "" : Number(element[3])+" h"} " disabled/>`
+        form.innerHTML += `<label>Fermeture après midi</label><input type="text" value="${element[4] === 0 ? "" : Number(element[4])+" h"} " disabled/><br>`
     })
 }
 
