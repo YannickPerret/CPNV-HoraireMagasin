@@ -19,7 +19,7 @@
 import './style/_settings.scss'
 
 
-// VARIABLE 
+// VARIABLES 
 //Start by Sunday !
 const weekday = [["Sunday","Sun"],["Monday", "Mon"],["Tuesday", "Tues"],["Wednesday", "Wed"],["Thursday", "Thurs"],["Friday", "Fri"],["Saturday", "Sat"]]; 
 
@@ -72,15 +72,20 @@ window.IsOpenOn = (_dateTime) =>{
 
 //Demande une date et retourne le prochain jours d'heure d'ouverture
 const NextOpeningDate = (_dateTime) => {
+
+    //Extraction en jour, heure , minutes
     let day = _dateTime.getDay()
     let hoursMin = _dateTime.getHours()+"."+_dateTime.getMinutes() 
 
     let nextAvailableDayOfTheWeek  = 0;
+    //variable texte d'affichage
     let textToShow = ""
 
+    //Est-ce qu'aujoud'hui le magasin est encore ouvert, test du matin 
     if(hoursMin > shopOpening[day][1] && hoursMin <= shopOpening[day][2]){
         textToShow = weekday[day][0]+ " le matin à "+ shopOpening[day][1]
     }
+    // test si l'après midi
     else if(hoursMin > shopOpening[day][3] && hoursMin <= shopOpening[day][4]){
         textToShow = weekday[day][0]+ " l'après-midi à "+ shopOpening[day][3]
     }
@@ -88,16 +93,19 @@ const NextOpeningDate = (_dateTime) => {
         hoursMin = 0.00
         nextAvailableDayOfTheWeek = day + 1
 
+        //Pour n'oublier aucun jour, nous parcourons deux fois les jours de la semaine.
         for (let i = 0; i < 14; i++){
             if(nextAvailableDayOfTheWeek === 7){
                 nextAvailableDayOfTheWeek = 0
             }
 
-            if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][1] ){ //test si l'horaire du matin est le plus grand
+            //Si le prochain jour ouvert matinale à une heure d'ouverture est plus grande que 00.00
+            if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][1] ){
                 textToShow = weekday[nextAvailableDayOfTheWeek][0]+ " à "+ shopOpening[nextAvailableDayOfTheWeek][1]
             }
         
-            else if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][3]){ //Sinon si l'après midi est plus grand
+            //Si le prochain jour après midi d'ouverture est plus grand que 00.00
+            else if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][3]){
                 textToShow = weekday[nextAvailableDayOfTheWeek][0]+ " à "+ shopOpening[nextAvailableDayOfTheWeek][3]
             }
             
