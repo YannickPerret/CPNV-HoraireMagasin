@@ -1,0 +1,63 @@
+/*************variables***********/
+
+$bg-presentation : rgb(230, 227, 227);
+$bg-teams : rgb(0, 0, 0);
+
+
+/* Basic styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root{
+    --bg-color: #fff;
+}
+body {
+    max-width: 100%;
+}
+
+
+.openShopSchedule{
+  display : flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height:40vh;
+    & h1 {
+      margin : 0 auto;
+    }
+
+    & form input{
+      margin : 1.5vh 10px 0 10px;
+      
+      width: 100px;
+
+
+      & .inputDay{
+        height: 35px;
+      }
+    }
+}
+
+.openShop{
+  margin-top : 15vh;
+  display : flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 40vw;
+  height: 30vh;
+  align-items: center;
+}
+
+
+#nextShopOpen{
+  display : flex;
+  width: 400px;
+  border : 1px dashed black;
+  justify-content: center;
+  margin: 0 auto;
+}
