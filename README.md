@@ -1,5 +1,7 @@
 # CPNV - Gestion d'horaire d'une magasin
-Gestion d'un d'ouverture d'un magasin avec fonctionnalité pour savoir s'il est ouvert actuellement et à une prochaine date.
+Site de gestion d'horaire d'ouverture d'un magasin. Avec les fonctionnalités suivantes : 
+ -> fonction pour savoir si le shop est en ligne est dans une date différente
+ -> Connaitre la prochaine date ou heure d'ouverture du magasin par rapport à une date donnée.
 
 
 ## Lancer les fichiers en standalone
