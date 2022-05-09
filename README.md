@@ -33,5 +33,6 @@ npm run install
 npm run build
 ```
 
-Les fichiers de production sont dans le dossier : /public
+Les fichiers de production sont dans le dossier : /public  
+
 Les fichiers de développement sont dans le dossier : /src
