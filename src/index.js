@@ -81,12 +81,15 @@ const NextOpeningDate = (_dateTime) => {
     //variable texte d'affichage
     let textToShow = ""
 
+
+
     //Est-ce qu'aujoud'hui le magasin est encore ouvert, test du matin 
-    if(hoursMin > shopOpening[day][1] && hoursMin <= shopOpening[day][2]){
+    if(hoursMin < shopOpening[day][1] && hoursMin <= shopOpening[day][2] && shopOpening[day][1] !== 0){
         textToShow = weekday[day][0]+ " le matin à "+ shopOpening[day][1]
     }
     // test si l'après midi
-    else if(hoursMin > shopOpening[day][3] && hoursMin <= shopOpening[day][4]){
+
+    else if(hoursMin < shopOpening[day][3] && hoursMin <= shopOpening[day][4] && shopOpening[day][3] !== 0){
         textToShow = weekday[day][0]+ " l'après-midi à "+ shopOpening[day][3]
     }
     else{
@@ -100,13 +103,15 @@ const NextOpeningDate = (_dateTime) => {
             }
 
             //Si le prochain jour ouvert matinale à une heure d'ouverture est plus grande que 00.00
-            if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][1] ){
+            if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][1] && shopOpening[nextAvailableDayOfTheWeek][1] !== 0){
                 textToShow = weekday[nextAvailableDayOfTheWeek][0]+ " à "+ shopOpening[nextAvailableDayOfTheWeek][1]
+                break;
             }
         
             //Si le prochain jour après midi d'ouverture est plus grand que 00.00
-            else if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][3]){
+            else if(hoursMin <= shopOpening[nextAvailableDayOfTheWeek][3] && shopOpening[nextAvailableDayOfTheWeek][3] !== 0){
                 textToShow = weekday[nextAvailableDayOfTheWeek][0]+ " à "+ shopOpening[nextAvailableDayOfTheWeek][3]
+                break;
             }
             
             nextAvailableDayOfTheWeek++;
@@ -151,4 +156,5 @@ let thursday_afternoon = new Date('2016-05-12T14:00:00.000') //true
 IsOpenOn(new Date())
 
 //Malheureusement quelques bugs subsistent
-console.log(NextOpeningDate(new Date()))
+NextOpeningDate(thursday)
+
